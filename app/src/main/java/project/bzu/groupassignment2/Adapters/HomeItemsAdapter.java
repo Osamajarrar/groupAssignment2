@@ -102,10 +102,10 @@ public class HomeItemsAdapter extends RecyclerView.Adapter<HomeItemsAdapter.View
             public void onClick(View view){
                 Intent intent = new Intent(context, ItemDetails.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("itemImage", itemImagesIDs[position]);
-                intent.putExtra("itemName",itemNames[position]);
-                intent.putExtra("itemPrice",itemPrices[position]);
-                intent.putExtra("itemRating",itemRatings[position]);
+                intent.putExtra("itemImageToItemDetails", itemImagesIDs[position]);
+                intent.putExtra("itemNameToItemDetails",itemNames[position]);
+                intent.putExtra("itemPriceToItemDetails",itemPrices[position]);
+                intent.putExtra("itemRatingToItemDetails",itemRatings[position]);
                 context.startActivity(intent);
             }
         });

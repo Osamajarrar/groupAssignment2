@@ -19,9 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import project.bzu.groupassignment2.Activities.ItemDetails;
+import project.bzu.groupassignment2.Models.Item;
 import project.bzu.groupassignment2.R;
 
 
@@ -29,22 +32,13 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.View
 
     LayoutInflater inflater;
     Context context;
-    private String itemName,itemQty;
-    private double itemPrice;
-    private int itemImagesID;
+    private List<Item> itemsList;
 
 
-    public CartItemsAdapter( Context context, String itemName, String itemQty, double itemPrice,int itemImagesID) {
+    public CartItemsAdapter( Context context, List<Item> itemsList) {
         this.inflater=LayoutInflater.from(context);
         this.context = context;
-        this.itemName = itemName;
-        Log.d("TAG", "CartItemsAdapter:itemName: "+itemName);
-        this.itemQty = itemQty;
-        Log.d("TAG", "CartItemsAdapter: itemQty:  "+itemQty);
-        this.itemPrice = itemPrice;
-        Log.d("TAG", "CartItemsAdapter: itemPrice: "+itemPrice);
-        this.itemImagesID=itemImagesID;
-        Log.d("TAG", "CartItemsAdapter: itemImagesID: "+itemImagesID);
+        this.itemsList=itemsList;
     }
 
     @NonNull
@@ -57,9 +51,9 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.item_title.setText(itemName);
-        holder.item_price.setText(String.valueOf(itemPrice));
-        Drawable dr= ContextCompat.getDrawable(context,itemImagesID);
+        holder.item_title.setText(itemsList.get(position).getName());
+        holder.item_price.setText(String.valueOf(itemsList.get(position).getPrice()));
+        Drawable dr= ContextCompat.getDrawable(context,itemsList.get(position).getImageID());
         holder.item_image.setImageDrawable(dr);
         holder.nis_symbol3.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.nis_symbol));
         holder.nis_symbol4.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.nis_symbol));

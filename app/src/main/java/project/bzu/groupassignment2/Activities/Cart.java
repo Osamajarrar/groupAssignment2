@@ -5,28 +5,39 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import project.bzu.groupassignment2.Adapters.CartItemsAdapter;
 import project.bzu.groupassignment2.Adapters.HomeItemsAdapter;
+import project.bzu.groupassignment2.Models.CartModel;
 import project.bzu.groupassignment2.Models.Item;
 import project.bzu.groupassignment2.R;
 
 public class Cart extends AppCompatActivity {
-    Intent intent;
+
     int itemImage;
     double itemPrice;
     String itemName,itemQty;
     CartItemsAdapter adapter;
     RecyclerView recyclerView;
-    ArrayList<Item> items;
+    Item item;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    public static final String CARTPREFS = "cartPrefs" ;
+    Gson gson;
+    CartModel cartObject;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,21 +59,33 @@ public class Cart extends AppCompatActivity {
             }
         });
         recyclerView=findViewById(R.id.cart_items);
-        items=new ArrayList<>();
 
-        intent=getIntent();
-        if (intent==null){
-            Log.d("TAG", "onCreate: nullllllll");
-        }
-        itemImage=(int)intent.getExtras().get("itemImage1");
-        Log.d("TAG", "onCreate: "+itemImage);
-        itemPrice=(double)intent.getExtras().get("itemPrice1");
-        itemName=intent.getExtras().getString("itemName1");
-        Log.d("TAG", "onCreate: "+itemName);
-        itemQty=intent.getExtras().getString("itemQty1");
+        setUpSharedPrefs();
 
+        itemImage = sharedPreferences.getInt("itemImageToItemAdded2",0);
+        itemPrice = (double) sharedPreferences.getFloat("itemPriceToItemAdded2",0);
+        itemName = sharedPreferences.getString("itemNameToItemAdded2","");
+        itemQty = sharedPreferences.getString("itemQtyToItemAdded2","");
+        item=new Item(itemName,itemPrice,Integer.parseInt(itemQty),itemImage);
+        Log.d("TAG", "itemCreation: "+item.toString());
+
+        gson = new Gson();
+        String json = sharedPreferences.getString(CARTPREFS, "");
+        cartObject = gson.fromJson(json, CartModel.class);
+        Log.d("TAG", "onCreate: "+cartObject.itemArrayList);
+
+
+        if(cartObject.itemArrayList.size()!=0){
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter=new CartItemsAdapter(getApplicationContext(),itemName,itemQty,itemPrice,itemImage);
+        adapter=new CartItemsAdapter(getApplicationContext(),cartObject.itemArrayList);
         recyclerView.setAdapter(adapter);
+        }
+
+
     }
+    private void setUpSharedPrefs(){
+        sharedPreferences= getSharedPreferences(CARTPREFS, Context.MODE_PRIVATE);
+        editor=sharedPreferences.edit();
+    }
+
 }

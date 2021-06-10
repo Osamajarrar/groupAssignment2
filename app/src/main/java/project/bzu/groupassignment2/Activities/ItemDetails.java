@@ -6,7 +6,9 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +18,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import project.bzu.groupassignment2.Models.CartModel;
+import project.bzu.groupassignment2.Models.Item;
 import project.bzu.groupassignment2.R;
 
 public class ItemDetails extends AppCompatActivity {
@@ -30,7 +35,14 @@ public class ItemDetails extends AppCompatActivity {
     Spinner quantity_spinner;
     int itemImage;
     double itemPrice;
-    String itemName,itemRating;
+    String itemName,itemRating,itemQuantity;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    Gson gson;
+    CartModel cartObject;
+    public static final String CARTPREFS = "cartPrefs" ;
+    Item item;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,10 +66,10 @@ public class ItemDetails extends AppCompatActivity {
             }
         });
         intent=getIntent();
-        itemImage=(int)intent.getExtras().get("itemImage");
-        itemPrice=(double)intent.getExtras().get("itemPrice");
-        itemName=intent.getExtras().getString("itemName");
-        itemRating=intent.getExtras().getString("itemRating");
+        itemImage=(int)intent.getExtras().get("itemImageToItemDetails");
+        itemPrice=(double)intent.getExtras().get("itemPriceToItemDetails");
+        itemName=intent.getExtras().getString("itemNameToItemDetails");
+        itemRating=intent.getExtras().getString("itemRatingToItemDetails");
         item_image_preview=findViewById(R.id.item_image_preview);
         star1_preview=findViewById(R.id.star1_preview);
         star2_preview=findViewById(R.id.star2_preview);
@@ -112,6 +124,15 @@ public class ItemDetails extends AppCompatActivity {
         item_price_preview.setText(String.valueOf(itemPrice));
         nis_symbol2.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.nis_symbol));
         populateSpinner();
+        itemQuantity=quantity_spinner.getSelectedItem().toString();
+
+        setUpSharedPrefs();
+
+        cartObject=new CartModel();
+    }
+    private void setUpSharedPrefs(){
+        sharedPreferences= getSharedPreferences(CARTPREFS,Context.MODE_PRIVATE);
+        editor=sharedPreferences.edit();
     }
     private void populateSpinner() {
         String[] qty={"1","2","3"};
@@ -122,14 +143,27 @@ public class ItemDetails extends AppCompatActivity {
     }
 
     public void addToCartOnClick(View view) {
+        editor.putInt("itemImageToItemAdded2",itemImage);
+        editor.putFloat("itemPriceToItemAdded2", (float) itemPrice);
+        editor.putString("itemNameToItemAdded2",itemName);
+        editor.putString("itemQtyToItemAdded2",quantity_spinner.getSelectedItem().toString());
+        Log.d("TAG", "itemQuantity: "+itemQuantity);
+        item=new Item(itemName,itemPrice,Integer.parseInt(itemQuantity),itemImage);
+        Log.d("TAG", "itemmm: "+item.toString());
+        cartObject.itemArrayList.add(item);
+        Log.d("TAG", "addToCartOnClick: "+cartObject.toString());
+        gson = new Gson();
+        String json = gson.toJson(cartObject);
+        Log.d("TAG", "addToCartOnClick: json"+json);
+        editor.putString(CARTPREFS, json);
+        editor.commit();
+
         intent=new Intent(this,ItemAdded.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("itemImage",itemImage);
-        intent.putExtra("itemName",itemName);
-        intent.putExtra("itemPrice",itemPrice);
-        intent.putExtra("itemQty",  quantity_spinner.getSelectedItem().toString());
-        Log.d("TAG", "addToCartOnClick: "+quantity_spinner.getSelectedItem().toString());
-        Log.d("TAG", "addToCartOnClick: "+itemImage);
+        intent.putExtra("itemImageToItemAdded",itemImage);
+        intent.putExtra("itemNameToItemAdded",itemName);
+        intent.putExtra("itemPriceToItemAdded",itemPrice);
+        intent.putExtra("itemQtyToItemAdded",quantity_spinner.getSelectedItem().toString());
         this.startActivity(intent);
     }
 }

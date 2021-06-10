@@ -45,22 +45,15 @@ public class ItemAdded extends AppCompatActivity {
             }
         });
         intent=getIntent();
-        itemImage=(int)intent.getExtras().get("itemImage");
-        itemPrice=(double)intent.getExtras().get("itemPrice");
-        itemName=intent.getExtras().getString("itemName");
-        itemQty=intent.getExtras().getString("itemQty");
+        itemImage=(int)intent.getExtras().get("itemImageToItemAdded");
+        itemPrice=(double)intent.getExtras().get("itemPriceToItemAdded");
+        itemName=intent.getExtras().getString("itemNameToItemAdded");
+        itemQty=intent.getExtras().getString("itemQtyToItemAdded");
         imageAdded=findViewById(R.id.image_cart);
         imageAdded.setImageDrawable(ContextCompat.getDrawable(this,itemImage));
     }
 
     public void continueBtnOnClick(View view) {
-        intent=new Intent(this,Cart.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("itemImage1",itemImage);
-        Log.d("TAG", "continueBtnOnClick: "+itemImage);
-        intent.putExtra("itemPrice1",itemPrice);
-        intent.putExtra("itemName1",itemName);
-        intent.putExtra("itemQty1",itemQty);
         intent2=new Intent(this,Home.class);
         intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(intent2);
@@ -69,11 +62,6 @@ public class ItemAdded extends AppCompatActivity {
     public void checkOutBtnOnClick(View view) {
         intent=new Intent(this,Cart.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("itemImage1",itemImage);
-        Log.d("TAG", "checkOutBtnOnClick: "+itemImage);
-        intent.putExtra("itemPrice1",itemPrice);
-        intent.putExtra("itemName1",itemName);
-        intent.putExtra("itemQty1",itemQty);
         this.startActivity(intent);
     }
 }
