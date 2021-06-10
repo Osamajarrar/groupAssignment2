@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Activities.Checkout">
+
+    <include
+        android:id="@+id/top_toolbar"
+
+        layout="@layout/top_toolbar_layout"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/checkout_items"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/totalBtax"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_toolbar" />
+
+
+
+
+
+
+    <TextView
+        android:id="@+id/totalBtax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Total Before Tax:"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tax"
+        app:layout_constraintStart_toStartOf="@+id/tax" />
+
+    <TextView
+        android:id="@+id/totalBtaxV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="value"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/totalBtax"
+        app:layout_constraintTop_toTopOf="@+id/totalBtax" />
+
+    <TextView
+        android:id="@+id/taxV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="value"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/tax"
+        app:layout_constraintTop_toTopOf="@+id/tax" />
+
+    <TextView
+        android:id="@+id/totalAtaxV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="value"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/totalAtax"
+        app:layout_constraintTop_toTopOf="@+id/totalAtax" />
+
+    <TextView
+        android:id="@+id/totalAtax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Total After Tax:"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/place_order"
+        app:layout_constraintStart_toStartOf="@+id/place_order" />
+
+    <TextView
+        android:id="@+id/tax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Tax:"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/totalAtax"
+        app:layout_constraintStart_toStartOf="@+id/totalAtax" />
+
+    <ImageView
+        android:id="@+id/nissymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/totalBtaxV"
+        app:layout_constraintTop_toTopOf="@+id/totalBtaxV" />
+
+    <ImageView
+        android:id="@+id/nissymbol2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/taxV"
+        app:layout_constraintTop_toTopOf="@+id/taxV" />
+
+    <ImageView
+        android:id="@+id/nissymbol3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/totalAtaxV"
+        app:layout_constraintTop_toTopOf="@+id/totalAtaxV" />
+    <Button
+        android:id="@+id/place_order"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"
+        android:onClick="placeOrder"
+        android:text="Place Order"
+        app:backgroundTint="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <include
+        android:id="@+id/bottom_nav"
+
+        layout="@layout/bottom_nav_layout"
+
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
