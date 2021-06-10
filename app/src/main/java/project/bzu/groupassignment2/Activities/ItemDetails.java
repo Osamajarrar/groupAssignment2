@@ -1,5 +1,6 @@
 package project.bzu.groupassignment2.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -7,11 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.w3c.dom.Text;
 
@@ -24,17 +28,36 @@ public class ItemDetails extends AppCompatActivity {
     ImageView item_image_preview,star1_preview,star2_preview,star3_preview,star4_preview,star5_preview,nis_symbol2;
     TextView item_title_preview,item_price_preview;
     Spinner quantity_spinner;
-    Context context;
+    int itemImage;
+    double itemPrice;
+    String itemName,itemRating;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_details_layout);
+        BottomNavigationView BottomNavigationView =findViewById(R.id.bottomNavigationView);
+        BottomNavigationView.setSelectedItemId(R.id.homepage);
+        BottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.homepage:
+                        startActivity(new Intent(getApplicationContext(), Home.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.cart:
+                        startActivity(new Intent(getApplicationContext(), Cart.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+                return false;
+            }
+        });
         intent=getIntent();
-        int itemImage=(int)intent.getExtras().get("itemImage");
-        Log.d("TAG", "onCreate: "+itemImage);
-        double itemPrice=(double)intent.getExtras().get("itemPrice");
-        String itemName=intent.getExtras().getString("itemName");
-        String itemRating=intent.getExtras().getString("itemRating");
+        itemImage=(int)intent.getExtras().get("itemImage");
+        itemPrice=(double)intent.getExtras().get("itemPrice");
+        itemName=intent.getExtras().getString("itemName");
+        itemRating=intent.getExtras().getString("itemRating");
         item_image_preview=findViewById(R.id.item_image_preview);
         star1_preview=findViewById(R.id.star1_preview);
         star2_preview=findViewById(R.id.star2_preview);
@@ -49,7 +72,6 @@ public class ItemDetails extends AppCompatActivity {
         item_image_preview.setImageDrawable(ContextCompat.getDrawable(this,itemImage));
         item_title_preview.setText(itemName);
         if(itemRating.equals("1")){
-            Log.d("TAG", "onBindViewHolder: hiii");
             star1_preview.setVisibility(View.VISIBLE);
             star1_preview.setImageResource(R.drawable.ic_baseline_star_24);
         }else if (itemRating.equals("2")){
@@ -100,6 +122,14 @@ public class ItemDetails extends AppCompatActivity {
     }
 
     public void addToCartOnClick(View view) {
-        
+        intent=new Intent(this,ItemAdded.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("itemImage",itemImage);
+        intent.putExtra("itemName",itemName);
+        intent.putExtra("itemPrice",itemPrice);
+        intent.putExtra("itemQty",  quantity_spinner.getSelectedItem().toString());
+        Log.d("TAG", "addToCartOnClick: "+quantity_spinner.getSelectedItem().toString());
+        Log.d("TAG", "addToCartOnClick: "+itemImage);
+        this.startActivity(intent);
     }
 }

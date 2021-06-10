@@ -18,7 +18,14 @@ public class Item {
     public Item() {
     }
 
-    public Item( String name, Double price, String rating, int imageID) {
+    public Item(String name, Double price, int quantity, int imageID) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.imageID = imageID;
+    }
+
+    public Item(String name, Double price, String rating, int imageID) {
         this.name = name;
         this.price = price;
         this.rating = rating;

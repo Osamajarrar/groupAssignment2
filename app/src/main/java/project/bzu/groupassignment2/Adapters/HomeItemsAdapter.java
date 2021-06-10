@@ -58,9 +58,7 @@ public class HomeItemsAdapter extends RecyclerView.Adapter<HomeItemsAdapter.View
         Drawable dr= ContextCompat.getDrawable(context,itemImagesIDs[position]);
         holder.item_image.setImageDrawable(dr);
         holder.nis_symbol.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.nis_symbol));
-        Log.d("TAG", "onBindViewHolder: "+itemRatings[position]);
         if(itemRatings[position].equals("1")){
-            Log.d("TAG", "onBindViewHolder: hiii");
             holder.star1.setVisibility(View.VISIBLE);
             holder.star1.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_baseline_star_24));
         }else if (itemRatings[position].equals("2")){
@@ -104,9 +102,7 @@ public class HomeItemsAdapter extends RecyclerView.Adapter<HomeItemsAdapter.View
             public void onClick(View view){
                 Intent intent = new Intent(context, ItemDetails.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtra("postID",posts.get(position).getPostID());
                 intent.putExtra("itemImage", itemImagesIDs[position]);
-                Log.d("TAG", "onClick: "+itemImagesIDs[position]);
                 intent.putExtra("itemName",itemNames[position]);
                 intent.putExtra("itemPrice",itemPrices[position]);
                 intent.putExtra("itemRating",itemRatings[position]);
