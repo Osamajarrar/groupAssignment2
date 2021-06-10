@@ -32,6 +32,13 @@ public class Item {
         this.imageID = imageID;
     }
 
+    public Item(String name, Double price, String rating, int quantity, int imageID) {
+        this.name = name;
+        this.price = price;
+        this.rating = rating;
+        this.quantity = quantity;
+        this.imageID = imageID;
+    }
 
     public String getName() {
         return name;

@@ -35,11 +35,11 @@ public class ItemDetails extends AppCompatActivity {
     Spinner quantity_spinner;
     int itemImage;
     double itemPrice;
-    String itemName,itemRating,itemQuantity;
+    String itemName,itemRating,itemQuantity,items;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     Gson gson;
-    CartModel cartObject;
+    CartModel cartObject=new CartModel();
     public static final String CARTPREFS = "cartPrefs" ;
     Item item;
 
@@ -124,11 +124,8 @@ public class ItemDetails extends AppCompatActivity {
         item_price_preview.setText(String.valueOf(itemPrice));
         nis_symbol2.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.nis_symbol));
         populateSpinner();
-        itemQuantity=quantity_spinner.getSelectedItem().toString();
-
         setUpSharedPrefs();
 
-        cartObject=new CartModel();
     }
     private void setUpSharedPrefs(){
         sharedPreferences= getSharedPreferences(CARTPREFS,Context.MODE_PRIVATE);
@@ -143,19 +140,24 @@ public class ItemDetails extends AppCompatActivity {
     }
 
     public void addToCartOnClick(View view) {
+        itemQuantity=quantity_spinner.getSelectedItem().toString();
+
         editor.putInt("itemImageToItemAdded2",itemImage);
         editor.putFloat("itemPriceToItemAdded2", (float) itemPrice);
         editor.putString("itemNameToItemAdded2",itemName);
-        editor.putString("itemQtyToItemAdded2",quantity_spinner.getSelectedItem().toString());
+        editor.putString("itemQtyToItemAdded2",itemQuantity);
         Log.d("TAG", "itemQuantity: "+itemQuantity);
         item=new Item(itemName,itemPrice,Integer.parseInt(itemQuantity),itemImage);
-        Log.d("TAG", "itemmm: "+item.toString());
-        cartObject.itemArrayList.add(item);
-        Log.d("TAG", "addToCartOnClick: "+cartObject.toString());
         gson = new Gson();
-        String json = gson.toJson(cartObject);
-        Log.d("TAG", "addToCartOnClick: json"+json);
-        editor.putString(CARTPREFS, json);
+        items+=gson.toJson(item)+"#";
+//        Log.d("TAG", "itemmm: "+item.toString());
+        Log.d("TAG", "itemmm: "+items);
+//        cartObject.itemArrayList.add(item);
+//        Log.d("TAG", "addToCartOnClick: "+cartObject.toString());
+//
+//        String json = gson.toJson(cartObject);
+//        Log.d("TAG", "addToCartOnClick: json"+json);
+        editor.putString(CARTPREFS, items);
         editor.commit();
 
         intent=new Intent(this,ItemAdded.class);
@@ -163,7 +165,7 @@ public class ItemDetails extends AppCompatActivity {
         intent.putExtra("itemImageToItemAdded",itemImage);
         intent.putExtra("itemNameToItemAdded",itemName);
         intent.putExtra("itemPriceToItemAdded",itemPrice);
-        intent.putExtra("itemQtyToItemAdded",quantity_spinner.getSelectedItem().toString());
+        intent.putExtra("itemQtyToItemAdded",itemQuantity);
         this.startActivity(intent);
     }
 }

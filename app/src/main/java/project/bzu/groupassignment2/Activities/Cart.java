@@ -14,6 +14,9 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,15 +32,16 @@ public class Cart extends AppCompatActivity {
 
     int itemImage;
     double itemPrice;
-    String itemName,itemQty;
+    String itemName,itemQty,json;
     CartItemsAdapter adapter;
     RecyclerView recyclerView;
-    Item item;
+    Item item,item2;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     public static final String CARTPREFS = "cartPrefs" ;
     Gson gson;
     CartModel cartObject;
+    ArrayList<Item> cartItemsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +63,7 @@ public class Cart extends AppCompatActivity {
             }
         });
         recyclerView=findViewById(R.id.cart_items);
-
+        cartItemsList=new ArrayList<>();
         setUpSharedPrefs();
 
         itemImage = sharedPreferences.getInt("itemImageToItemAdded2",0);
@@ -67,17 +71,29 @@ public class Cart extends AppCompatActivity {
         itemName = sharedPreferences.getString("itemNameToItemAdded2","");
         itemQty = sharedPreferences.getString("itemQtyToItemAdded2","");
         item=new Item(itemName,itemPrice,Integer.parseInt(itemQty),itemImage);
-        Log.d("TAG", "itemCreation: "+item.toString());
+        Log.d("TAG", "item1: "+item.toString());
 
         gson = new Gson();
-        String json = sharedPreferences.getString(CARTPREFS, "");
-        cartObject = gson.fromJson(json, CartModel.class);
-        Log.d("TAG", "onCreate: "+cartObject.itemArrayList);
+        json = sharedPreferences.getString(CARTPREFS, "");
+        String[] jsonArr=json.split("#");
+        Log.d("TAG", "onCreate: "+jsonArr[0]);
+        for (int i=0;i<jsonArr.length;i++){
+            //item2=new Item(jsonArr[0],Double.parseDouble(jsonArr[1]),jsonArr[2],Integer.parseInt(jsonArr[3]),Integer.parseInt(jsonArr[4]));
+            //item2=gson.fromJson(JSON.parse);
+            JsonObject jsonObject=new JsonObject();
+
+            cartItemsList.add(item2);
+        }
+        //cartObject = gson.fromJson(json, CartModel.class);
+        //item2=gson.fromJson(json,Item.class);
+       // Log.d("TAG", "item2: "+item2.toString());
+       // cartItemsList.add(item2);
+        Log.d("TAG", "onCreate: "+cartObject);
 
 
-        if(cartObject.itemArrayList.size()!=0){
+        if(cartItemsList.size()!=0){
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter=new CartItemsAdapter(getApplicationContext(),cartObject.itemArrayList);
+        adapter=new CartItemsAdapter(getApplicationContext(),cartItemsList);
         recyclerView.setAdapter(adapter);
         }
 
