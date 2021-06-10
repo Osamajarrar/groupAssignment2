@@ -59,4 +59,5 @@ public class Home extends AppCompatActivity {
         adapter=new HomeItemsAdapter(getApplicationContext(),itemNames,itemRatings,itemPrices,itemImagesIDs);
         recyclerView.setAdapter(adapter);
     }
+
 }

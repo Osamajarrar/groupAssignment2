@@ -1,8 +1,10 @@
 package project.bzu.groupassignment2.Models;
 
+import android.os.Parcelable;
+
 import project.bzu.groupassignment2.R;
 
-public class Item {
+public class Item  {
     private String name;
     private Double price;
     private String rating;

@@ -12,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GroupAssignment2"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.ItemAdded"></activity>
+        <activity android:name=".Activities.Confirmation"></activity>
+        <activity android:name=".Activities.Checkout" />
+        <activity android:name=".Activities.Information" />
+        <activity android:name=".Activities.ItemAdded" />
         <activity android:name=".Activities.ItemDetails" />
         <activity android:name=".Activities.Cart" />
         <activity android:name=".Activities.Home">

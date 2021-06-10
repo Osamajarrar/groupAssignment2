@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
 import org.w3c.dom.Text;
 
@@ -35,7 +36,7 @@ public class ItemDetails extends AppCompatActivity {
     Spinner quantity_spinner;
     int itemImage;
     double itemPrice;
-    String itemName,itemRating,itemQuantity,items;
+    String itemName,itemRating,itemQuantity,items="";
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     Gson gson;
@@ -149,7 +150,8 @@ public class ItemDetails extends AppCompatActivity {
         Log.d("TAG", "itemQuantity: "+itemQuantity);
         item=new Item(itemName,itemPrice,Integer.parseInt(itemQuantity),itemImage);
         gson = new Gson();
-        items+=gson.toJson(item)+"#";
+        String previousItem=sharedPreferences.getString(CARTPREFS,"");
+        items=previousItem+gson.toJson(item)+"#";
 //        Log.d("TAG", "itemmm: "+item.toString());
         Log.d("TAG", "itemmm: "+items);
 //        cartObject.itemArrayList.add(item);
@@ -168,4 +170,6 @@ public class ItemDetails extends AppCompatActivity {
         intent.putExtra("itemQtyToItemAdded",itemQuantity);
         this.startActivity(intent);
     }
+
+
 }
