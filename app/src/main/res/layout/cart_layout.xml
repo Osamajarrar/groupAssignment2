@@ -38,12 +38,13 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="10dp"
+        android:onClick="nextOnClick"
         android:text="Next"
+        android:visibility="gone"
         app:backgroundTint="#000000"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:onClick="nextOnClick"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <include

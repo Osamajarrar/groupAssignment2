@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
@@ -19,6 +20,7 @@ import com.google.gson.Gson;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 import project.bzu.groupassignment2.Adapters.CartItemsAdapter;
@@ -33,6 +35,7 @@ public class Cart extends AppCompatActivity {
     RecyclerView recyclerView;
     Item item,item2;
     Intent intent;
+    Button next;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     public static final String CARTPREFS = "cartPrefs" ;
@@ -61,21 +64,23 @@ public class Cart extends AppCompatActivity {
         recyclerView=findViewById(R.id.cart_items);
         cartItemsList=new ArrayList<>();
         setUpSharedPrefs();
-
+        next=findViewById(R.id.next);
         gson = new Gson();
         json = sharedPreferences.getString(CARTPREFS, "");
         String[] jsonArr=json.split("#");
-        Log.d("TAG", "onCreateasasdas: ");
+        Log.d("TAG", "onCreateasasdas: "+ Arrays.toString(jsonArr));
         for (int i=0;i<jsonArr.length;i++){
             item2 = gson.fromJson(jsonArr[i], Item.class);
             cartItemsList.add(item2);
         }
-
-        if(cartItemsList.size()!=1){
+        if(cartItemsList.size()>=1 && cartItemsList.get(0)!=null){
+            next.setVisibility(View.VISIBLE);
             Log.d("TAG", "inside if: "+cartItemsList.size());
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter=new CartItemsAdapter(getApplicationContext(),cartItemsList);
             recyclerView.setAdapter(adapter);
+        }else{
+            next.setVisibility(View.GONE);
         }
     }
     private void setUpSharedPrefs(){

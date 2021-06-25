@@ -43,7 +43,6 @@ public class Home extends AppCompatActivity {
             }
         });
         recyclerView = findViewById(R.id.sales_items);
-
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         String[] itemNames=new String[Item.items.length];
         String[] itemRatings=new String[Item.items.length];
